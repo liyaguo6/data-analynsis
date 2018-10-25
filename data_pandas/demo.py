@@ -15,7 +15,8 @@ iters=df1[['问题','病情分析/意见']].dropna()
 
 def sub1(str):
     pattern1 = re.compile(
-        '(\u3000|\u30005|\u30001|\u30002\u30003|\u30004)|(朋友|您好|你好|谢谢)(。|、|\？|,|，|\?|：|:|！|!|;|；)|^[^\u4e00-\u9fff]{1,}|(朋友|您好|你好|谢谢)|(病情分析|指导意见|心理分析)(。|、|\？|,|，|\?|：|:|！|!|;|；)')
+        '(\u3000|\u30005|\u30001|\u30002\u30003|\u30004)|(朋友|您好|你好|谢谢)(。|、|\？|,|，|\?|：|:|！|!|;|；)\
+|^[^\u4e00-\u9fff]{1,}|(朋友|您好|你好|谢谢)|(病情分析|心理分析|问题分析)(。|、|\？|,|，|\?|：|:|！|!|;|；)|指导意见.*')
     return  re.sub(pattern1,'',str)
 
 
@@ -25,6 +26,8 @@ def sub1(str):
 def sub2(str):
     pattern2 = re.compile('。{2,}')
     return  re.sub(pattern2,"。",str)
+
+
 
 
 
@@ -45,12 +48,12 @@ def get_data_list(data):
     q_data=clean_data(data['问题'])
     a_data=clean_data(data['病情分析/意见'])
     for i in range(len(q_data)):
-        if q_data[i] not in l:
+        if q_data[i] not in l and len(a_data[i])<200:
             data_list.append([q_data[i],a_data[i]])
             l.append(q_data[i])
 # #
     return data_list
-#
+# print(len(get_data_list(iters)))
 
 def load_json_file(file,result):
     data_dict = dict(conversations=result)
@@ -60,7 +63,7 @@ def load_json_file(file,result):
 
 
 # def clean_data_list():
-#     pass
+# #     pass
 if __name__ == '__main__':
     result = get_data_list(iters)
     file='test.json'
