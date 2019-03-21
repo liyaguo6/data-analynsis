@@ -29,7 +29,7 @@ if __name__ == "__main__":
     data = np.loadtxt(path, dtype=float, delimiter=',', converters={4: iris_type})
     x, y = np.split(data, (4,), axis=1)
     # 为了可视化，仅使用前两列特征
-    x = x[:, :2]
+    x = x[:, 2:4]
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=1)
     # ss = StandardScaler()
     # ss = ss.fit(x_train)
@@ -43,8 +43,9 @@ if __name__ == "__main__":
     pip_count = Pipeline(
         [('ss', StandardScaler()),  # 数据标准化过程
         ('DTC', DecisionTreeClassifier())])
-    params = {'DTC__max_depth': [2, 3, 4, 5],
-              'DTC__criterion': ['gini', 'entropy']
+    params = {'DTC__max_depth': [6,7],
+              # 'DTC__criterion': ['gini', 'entropy'],
+              "DTC__min_samples_leaf":[3,4,5,6]
               }
     model = GridSearchCV(pip_count ,
                          params,

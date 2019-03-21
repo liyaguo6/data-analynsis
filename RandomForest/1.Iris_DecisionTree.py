@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
     # 决策树参数估计
     # min_samples_split = 10：如果该结点包含的样本数目大于10，则(有可能)对其分支
-    # min_samples_leaf = 10：若将某结点分支后，得到的每个子结点样本数目都大于10，则完成分支；否则，不进行分支
+    # min_samples_leaf = 10：叶子节点最多个数
     #构建模型框架
     # ss = StandardScaler()
     # x_train= ss.fit_transform(x_train)
@@ -64,6 +64,8 @@ if __name__ == "__main__":
     t1 = np.linspace(x1_min, x1_max, N)
     t2 = np.linspace(x2_min, x2_max, M)
     x1, x2 = np.meshgrid(t1, t2)  # 生成网格采样点
+    print(x1.shape)
+    print(x2.shape)
     x_show = np.stack((x1.flat, x2.flat), axis=1)  # 测试点
 
     # # 无意义，只是为了凑另外两个维度
